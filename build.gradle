@@ -28,13 +28,9 @@ repositories {
 dependencies {
     compile 'com.google.guava:guava:' + guava
     compile 'org.bouncycastle:bcprov-jdk15on:' + bc
-    // Logging
-    compile 'org.slf4j:slf4j-api:' + slf4j
     // Test
     testCompile 'junit:junit:' + junit
     testCompile 'org.mockito:mockito-core:' + mockito
-    testRuntime 'ch.qos.logback:logback-core:' + logback
-    testRuntime 'ch.qos.logback:logback-classic:' + logback
 }
 
 /*** Code Quality Tools ***/
