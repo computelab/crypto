@@ -1,4 +1,4 @@
-package org.computelab.crypto;
+package org.computelab.crypto.random;
 
 /**
  * A string of random characters. Use random strings in place of sequential numbers as IDs. Random

@@ -1,4 +1,4 @@
-package org.computelab.crypto;
+package org.computelab.crypto.random;
 
 /**
  * Random strings composed of printable ASCII characters except for space and delete.

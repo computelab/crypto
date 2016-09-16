@@ -1,4 +1,4 @@
-package org.computelab.crypto;
+package org.computelab.crypto.random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.computelab.crypto.random.PrintableCharacterRandomString;
+import org.computelab.crypto.random.RandomString;
 import org.junit.Test;
 
 public class PrintableCharacterRandomStringTest {

@@ -1,9 +1,10 @@
-package org.computelab.crypto;
+package org.computelab.crypto.random;
 
 import static org.junit.Assert.assertFalse;
 
 import java.security.SecureRandom;
 
+import org.computelab.crypto.random.SecureRandomSunSha1Prng;
 import org.junit.Test;
 
 public class SecureRandomSunSha1PrngTest {

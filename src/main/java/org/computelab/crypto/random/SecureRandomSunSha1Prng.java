@@ -1,8 +1,10 @@
-package org.computelab.crypto;
+package org.computelab.crypto.random;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+
+import org.computelab.crypto.AlgorithmMissingException;
 
 public final class SecureRandomSunSha1Prng implements SecureRandomFactory {
 

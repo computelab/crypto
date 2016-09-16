@@ -1,4 +1,4 @@
-package org.computelab.crypto;
+package org.computelab.crypto.random;
 
 /**
  * Random strings composed of letters a-zA-Z and digits 0-9.

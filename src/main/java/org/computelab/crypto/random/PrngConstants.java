@@ -1,4 +1,4 @@
-package org.computelab.crypto;
+package org.computelab.crypto.random;
 
 final class PrngConstants {
 
