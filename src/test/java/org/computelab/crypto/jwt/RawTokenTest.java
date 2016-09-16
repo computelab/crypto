@@ -72,4 +72,20 @@ public class RawTokenTest {
         assertEquals(expectedPayload, token.payload());
         assertTrue(token.signature().isEmpty());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testParseTwoParts() {
+        RawToken.parse(
+                "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9." +
+                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I" +
+                "kpvaG4gRG9lIiwiYWRtaW4iOnRydWV9");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testParseFourParts() {
+        RawToken.parse(
+                "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9." +
+                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I" +
+                "kpvaG4gRG9lIiwiYWRtaW4iOnRydWV9..");
+    }
 }
