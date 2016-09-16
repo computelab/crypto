@@ -14,8 +14,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.computelab.crypto.random.AlphabeticRandomString;
-import org.computelab.crypto.random.RandomString;
 import org.junit.Test;
 
 import com.google.common.collect.HashMultiset;

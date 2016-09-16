@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.computelab.crypto.random.AlphanumericRandomString;
-import org.computelab.crypto.random.RandomString;
 import org.junit.Test;
 
 public class AlphanumericRandomStringTest {
