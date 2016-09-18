@@ -18,16 +18,16 @@ public class JwtParserTest {
                 "CwibmJmIjoxNDE2OTY5NTg4LCJpYXQiOjE0MT" +
                 "Y5Njk1ODgsImp0aSI6IjYxMWVmMjU3LTlhZmM" +
                 "tNGMzZC04MDhmLTFmM2E1OGUwMTg4YiJ9.";
-        final JwtParser parser = new JwtParser(BasicJwtHeader.class, BasicJwtPayload.class);
+        final JwtParser parser = new JwtParser(JwtHeaderImpl.class, JwtClaimsImpl.class);
         final Jwt jwt = parser.parse(token);
         assertEquals("JWT", jwt.header().type());
         assertEquals("HS256", jwt.header().algorithm());
-        assertEquals("https://computelab.org/caa70952-3a82-49cc-9bd5-daf795eef716/", jwt.payload().issuer());
-        assertEquals("test", jwt.payload().subject());
-        assertEquals("https://test.computelab.org/jwt", jwt.payload().audience());
-        assertEquals(1416972588L, jwt.payload().expiration().longValue());
-        assertEquals(1416969588L, jwt.payload().notBefore().longValue());
-        assertEquals(1416969588L, jwt.payload().issuedAt().longValue());
-        assertEquals("611ef257-9afc-4c3d-808f-1f3a58e0188b", jwt.payload().jwtId());
+        assertEquals("https://computelab.org/caa70952-3a82-49cc-9bd5-daf795eef716/", jwt.claims().issuer());
+        assertEquals("test", jwt.claims().subject());
+        assertEquals("https://test.computelab.org/jwt", jwt.claims().audience());
+        assertEquals(1416972588L, jwt.claims().expiration().longValue());
+        assertEquals(1416969588L, jwt.claims().notBefore().longValue());
+        assertEquals(1416969588L, jwt.claims().issuedAt().longValue());
+        assertEquals("611ef257-9afc-4c3d-808f-1f3a58e0188b", jwt.claims().jwtId());
     }
 }

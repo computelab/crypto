@@ -1,9 +1,6 @@
 package org.computelab.crypto.jwt;
 
-/**
- * These are the registered or reserved claims.
- */
-public class BasicJwtPayload implements JwtPayload {
+public class JwtClaimsImpl implements JwtClaims {
 
     private String iss;
     private String sub;

@@ -8,12 +8,12 @@ public interface Jwt {
     JwtHeader header();
 
     /**
-     * The payload. The claims.
+     * The claims.
      */
-    JwtPayload payload();
+    JwtClaims claims();
 
     /**
-     * Base64-encoded signature string.
+     * Base64 encoded signature string.
      */
     String signature();
 }
