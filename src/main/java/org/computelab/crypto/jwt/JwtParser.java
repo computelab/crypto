@@ -7,11 +7,11 @@ import com.google.gson.Gson;
 public class JwtParser {
 
     private final Gson gson = new Gson();
-    private final Class<? extends JwtHeader> headerType;
-    private final Class<? extends JwtClaims> payloadType;
+    private final Class<? extends JwsHeader> headerType;
+    private final Class<? extends Claims> payloadType;
 
-    public JwtParser(Class<? extends JwtHeader> headerType,
-            Class<? extends JwtClaims> payloadType) {
+    public JwtParser(Class<? extends JwsHeader> headerType,
+            Class<? extends Claims> payloadType) {
         checkNotNull(headerType);
         checkNotNull(payloadType);
         this.headerType = headerType;
@@ -20,15 +20,15 @@ public class JwtParser {
 
     public Jwt parse(final String jwt) {
         final RawToken rawToken = RawToken.parse(jwt);
-        final JwtHeader header = gson.fromJson(rawToken.header(), headerType);
-        final JwtClaims payload = gson.fromJson(rawToken.payload(), payloadType);
+        final JwsHeader header = gson.fromJson(rawToken.header(), headerType);
+        final Claims payload = gson.fromJson(rawToken.payload(), payloadType);
         return new Jwt() {
             @Override
-            public JwtHeader header() {
+            public JwsHeader header() {
                 return header;
             }
             @Override
-            public JwtClaims claims() {
+            public Claims claims() {
                 return payload;
             }
             @Override

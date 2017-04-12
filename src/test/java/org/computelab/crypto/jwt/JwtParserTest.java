@@ -18,7 +18,7 @@ public class JwtParserTest {
                 "CwibmJmIjoxNDE2OTY5NTg4LCJpYXQiOjE0MT" +
                 "Y5Njk1ODgsImp0aSI6IjYxMWVmMjU3LTlhZmM" +
                 "tNGMzZC04MDhmLTFmM2E1OGUwMTg4YiJ9.";
-        final JwtParser parser = new JwtParser(JwtHeaderImpl.class, JwtClaimsImpl.class);
+        final JwtParser parser = new JwtParser(JwsHeaderGsonObj.class, ClaimsGsonObj.class);
         final Jwt jwt = parser.parse(token);
         assertEquals("JWT", jwt.header().type());
         assertEquals("HS256", jwt.header().algorithm());
