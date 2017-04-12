@@ -1,6 +1,9 @@
 package org.computelab.crypto.jwt;
 
-public class JwtClaimsImpl implements JwtClaims {
+/**
+ * Claims object that can be serialized/deserialized by gson.
+ */
+final class ClaimsGsonObj implements Claims {
 
     private String iss;
     private String sub;

@@ -1,10 +1,10 @@
 package org.computelab.crypto.jwt;
 
 /**
- * These are the registered or reserved claims. Please see
- * RFC 7519 JSON Web Token (JWT) for the specifications.
+ * These are the registered claims. See RFC 7519 JSON Web Token (JWT)
+ * for the specifications.
  */
-public interface JwtClaims {
+public interface Claims {
 
     /**
      * The issuer.
