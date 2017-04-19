@@ -50,7 +50,6 @@ tasks.withType(Pmd) {
 
 jacocoTestReport {
     reports {
-        xml.enabled = false
-        csv.enabled = false
+        xml.enabled = true
     }
 }
