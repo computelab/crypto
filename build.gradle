@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'findbugs'
-    id 'jdepend'
     id 'pmd'
     id 'jacoco'
 }
@@ -39,13 +38,6 @@ tasks.withType(FindBugs) {
     reports {
         xml.enabled = false
         html.enabled = true
-    }
-}
-
-tasks.withType(JDepend) {
-    reports {
-        xml.enabled = false
-        text.enabled = true
     }
 }
 
