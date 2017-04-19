@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.google.gson.JsonObject;
 
-public class RawTokenTest {
+public class RawJwsTest {
 
     @Test
     public void testParseJwtHs256() {
@@ -16,7 +16,7 @@ public class RawTokenTest {
                 "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I" +
                 "kpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA9" +
                 "5OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
-        final RawToken token = RawToken.parse(jwt);
+        final RawJws token = RawJws.parseJwt(jwt);
         final JsonObject expectedHeader = new JsonObject();
         expectedHeader.addProperty("alg", "HS256");
         expectedHeader.addProperty("typ", "JWT");
@@ -40,7 +40,7 @@ public class RawTokenTest {
                 "eY559a4DFOd50_OqgHGuERTqYZyuhtF39yxJP" +
                 "AjUESwxk2J5k_4zM3O-vtd1Ghyo4IbqKKSy6J" +
                 "9mTniYJPenn5-HIirE";
-        final RawToken token = RawToken.parse(jwt);
+        final RawJws token = RawJws.parseJwt(jwt);
         final JsonObject expectedHeader = new JsonObject();
         expectedHeader.addProperty("alg", "RS256");
         expectedHeader.addProperty("typ", "JWT");
@@ -60,7 +60,7 @@ public class RawTokenTest {
                 "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9." +
                 "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I" +
                 "kpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.";
-        final RawToken token = RawToken.parse(jwt);
+        final RawJws token = RawJws.parseJwt(jwt);
         final JsonObject expectedHeader = new JsonObject();
         expectedHeader.addProperty("alg", "RS256");
         expectedHeader.addProperty("typ", "JWT");
@@ -75,7 +75,7 @@ public class RawTokenTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testParseTwoParts() {
-        RawToken.parse(
+        RawJws.parseJwt(
                 "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9." +
                 "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I" +
                 "kpvaG4gRG9lIiwiYWRtaW4iOnRydWV9");
@@ -83,7 +83,7 @@ public class RawTokenTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testParseFourParts() {
-        RawToken.parse(
+        RawJws.parseJwt(
                 "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9." +
                 "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I" +
                 "kpvaG4gRG9lIiwiYWRtaW4iOnRydWV9..");

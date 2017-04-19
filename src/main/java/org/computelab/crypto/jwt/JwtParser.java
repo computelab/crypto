@@ -10,7 +10,11 @@ public class JwtParser {
     private final Class<? extends JwsHeader> headerType;
     private final Class<? extends Claims> payloadType;
 
-    public JwtParser(Class<? extends JwsHeader> headerType,
+    public JwtParser() {
+        this(JwsHeaderGsonObj.class, ClaimsGsonObj.class);
+    }
+
+    JwtParser(Class<? extends JwsHeader> headerType,
             Class<? extends Claims> payloadType) {
         checkNotNull(headerType);
         checkNotNull(payloadType);
@@ -18,11 +22,11 @@ public class JwtParser {
         this.payloadType = payloadType;
     }
 
-    public Jwt parse(final String jwt) {
-        final RawToken rawToken = RawToken.parse(jwt);
+    public Jws parseJws(final String jwt) {
+        final RawJws rawToken = RawJws.parseJwt(jwt);
         final JwsHeader header = gson.fromJson(rawToken.header(), headerType);
         final Claims payload = gson.fromJson(rawToken.payload(), payloadType);
-        return new Jwt() {
+        return new Jws() {
             @Override
             public JwsHeader header() {
                 return header;
