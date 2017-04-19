@@ -8,14 +8,12 @@ import java.util.List;
 public interface JwsHeader {
 
     /**
-     * The media type. Default is "JWT".
+     * The media type.
      */
     String type();
 
     /**
-     * Used for nested signing or encryption, in which case this header
-     * MUST be present and the value MUST be "JWT", to indicate that a
-     * nested JWT is carried in this JWT.
+     * Used for nested signing or encryption.
      */
     String contentType();
 

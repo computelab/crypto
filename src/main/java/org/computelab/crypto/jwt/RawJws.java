@@ -12,11 +12,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 /**
- * Decoded JWT in raw JSON.
+ * Decoded JWS in raw JSON.
  */
-public class RawToken {
+public class RawJws {
 
-    public static RawToken parse(final String jwt) {
+    public static RawJws parseJwt(final String jwt) {
 
         checkNotNull(jwt);
         checkArgument(!jwt.isEmpty());
@@ -28,7 +28,7 @@ public class RawToken {
         final JsonElement payload = parser.parse(decode(parts[1]));
         final String signature = parts[2];
 
-        return new RawToken(header, payload, signature);
+        return new RawJws(header, payload, signature);
     }
 
     private static String decode(final String encoded) {
@@ -39,7 +39,7 @@ public class RawToken {
     private final JsonElement payload;
     private final String signature;
 
-    RawToken(JsonElement header, JsonElement payload, String signature) {
+    RawJws(JsonElement header, JsonElement payload, String signature) {
         checkNotNull(header);
         checkNotNull(payload);
         checkNotNull(signature);

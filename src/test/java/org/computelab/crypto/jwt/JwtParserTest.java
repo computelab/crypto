@@ -19,7 +19,7 @@ public class JwtParserTest {
                 "Y5Njk1ODgsImp0aSI6IjYxMWVmMjU3LTlhZmM" +
                 "tNGMzZC04MDhmLTFmM2E1OGUwMTg4YiJ9.";
         final JwtParser parser = new JwtParser(JwsHeaderGsonObj.class, ClaimsGsonObj.class);
-        final Jwt jwt = parser.parse(token);
+        final Jws jwt = parser.parseJws(token);
         assertEquals("JWT", jwt.header().type());
         assertEquals("HS256", jwt.header().algorithm());
         assertEquals("https://computelab.org/caa70952-3a82-49cc-9bd5-daf795eef716/", jwt.claims().issuer());

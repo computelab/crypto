@@ -1,16 +1,16 @@
 package org.computelab.crypto.jwt;
 
-public class JwtVerifierBuilder {
+public class JwsVerifierBuilder {
 
-    public JwtVerifierBuilder requireIssuer() {
+    public JwsVerifierBuilder requireIssuer() {
         return this;
     }
 
-    public JwtVerifier build() {
-        return new JwtVerifier() {
+    public JwsVerifier build() {
+        return new JwsVerifier() {
             // TODO: Composite
             @Override
-            public VerificationResult verify(Jwt jwt) {
+            public VerificationStatus verify(Jws jws) {
                 // TODO Auto-generated method stub
                 return null;
             }};

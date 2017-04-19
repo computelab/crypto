@@ -9,71 +9,91 @@ import com.google.gson.annotations.SerializedName;
  */
 final class JwsHeaderGsonObj implements JwsHeader {
 
-    private String typ;
-    private String cty;
+    @SerializedName("typ")
+    private String type;
 
-    private String alg;
-    private String jku;
-    private String jwk;
-    private String kid;
-    private String x5u;
-    private String x5t;
-    @SerializedName("x5t#S256") private String x5tSha256;
-    private List<String> x5c;
-    private List<String> crit;
+    @SerializedName("cty")
+    private String contentType;
+
+    @SerializedName("alg")
+    private String algorithm;
+
+    @SerializedName("jku")
+    private String keySetUrl;
+
+    @SerializedName("jwk")
+    private String key;
+
+    @SerializedName("kid")
+    private String keyId;
+
+    @SerializedName("x5u")
+    private String certUrl;
+
+    @SerializedName("x5t")
+    private String certSha1;
+
+    @SerializedName("x5t#S256")
+    private String certSha256;
+
+    @SerializedName("x5c")
+    private List<String> certChain;
+
+    @SerializedName("crit")
+    private List<String> critical;
 
     @Override
     public String type() {
-        return typ;
+        return type;
     }
 
     @Override
     public String contentType() {
-        return cty;
+        return contentType;
     }
 
     @Override
     public String algorithm() {
-        return alg;
+        return algorithm;
     }
 
     @Override
     public String keySetUrl() {
-        return jku;
+        return keySetUrl;
     }
 
     @Override
     public String key() {
-        return jwk;
+        return key;
     }
 
     @Override
     public String keyId() {
-        return kid;
+        return keyId;
     }
 
     @Override
     public String certUrl() {
-        return x5u;
+        return certUrl;
     }
 
     @Override
     public List<String> certChain() {
-        return x5c;
+        return certChain;
     }
 
     @Override
     public String certSha1() {
-        return x5t;
+        return certSha1;
     }
 
     @Override
     public String certSha256() {
-        return x5tSha256;
+        return certSha256;
     }
 
     @Override
     public List<String> critical() {
-        return crit;
+        return critical;
     }
 }
