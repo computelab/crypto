@@ -36,8 +36,8 @@ public class JwtParser {
                 return payload;
             }
             @Override
-            public String signature() {
-                return rawToken.signature();
+            public RawJws rawToken() {
+                return rawToken;
             }
         };
     }
