@@ -19,7 +19,7 @@ public interface Jws {
     Claims claims();
 
     /**
-     * Base64 URL encoded signature string.
+     * Unpacked token in raw JSON.
      */
-    String signature();
+    RawJws rawToken();
 }

@@ -6,7 +6,7 @@ public class JwsSignatureVerifier implements JwsVerifier {
     public VerificationStatus verify(final Jws jws) {
         // TODO: Verify signature
         final String algorithm = jws.header().algorithm();
-        final String signature = jws.signature();
+        final String signature = jws.rawToken().signature();
         if (algorithm != null && signature != null) {
             return VerificationStatus.VALID;
         }
