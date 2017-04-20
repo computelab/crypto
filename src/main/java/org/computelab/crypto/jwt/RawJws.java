@@ -4,60 +4,84 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 import org.bouncycastle.util.encoders.Base64;
 
 import com.google.common.base.CharMatcher;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 /**
- * Decoded JWS in raw JSON.
+ * Unpacks JWS into raw JSON.
+ *
+ * See https://tools.ietf.org/html/rfc7515#section-5.
  */
 public class RawJws {
 
-    public static RawJws parseJwt(final String jwt) {
+    // === Static Members ===
 
+    private static final Character DOT = Character.valueOf('.');
+    private static final Pattern SPLIT = Pattern.compile("\\" + DOT);
+
+    public static RawJws parseJwt(final String jwt) {
         checkNotNull(jwt);
         checkArgument(!jwt.isEmpty());
-        checkArgument(CharMatcher.is('.').countIn(jwt) == 2);
-
-        final String[] parts = jwt.split("\\.", 3);
-        final JsonParser parser = new JsonParser();
-        final JsonElement header = parser.parse(decode(parts[0]));
-        final JsonElement payload = parser.parse(decode(parts[1]));
+        checkArgument(CharMatcher.is(DOT).countIn(jwt) == 2);
+        final String[] parts = SPLIT.split(jwt, 3);
+        final String header = decode(parts[0]);
+        final String payload = decode(parts[1]);
+        final String content = parts[0] + DOT + parts[1];
         final String signature = parts[2];
-
-        return new RawJws(header, payload, signature);
+        return new RawJws(header, payload, content, signature);
     }
 
     private static String decode(final String encoded) {
         return new String(Base64.decode(encoded), StandardCharsets.UTF_8);
     }
 
-    private final JsonElement header;
-    private final JsonElement payload;
+    // === Non-Static Members ===
+
+    private final String header;
+    private final String payload;
+    private final String content;
     private final String signature;
 
-    RawJws(JsonElement header, JsonElement payload, String signature) {
+    // Package scope to NOT to expose dependencies to gson
+    RawJws(final String header, final String payload,
+            final String content, final String signature) {
         checkNotNull(header);
         checkNotNull(payload);
+        checkNotNull(content);
         checkNotNull(signature);
         this.header = header;
         this.payload = payload;
+        this.content = content;
         this.signature = signature;
     }
 
-    public JsonElement header() {
+    /**
+     * The JOSE header in raw JSON String.
+     */
+    public String header() {
         return header;
     }
 
-    public JsonElement payload() {
+    /**
+     * The JWS payload in raw JSON.
+     */
+    public String payload() {
         return payload;
     }
 
     /**
-     * Base64-encoded signature.
+     * The header concatenated with dot and then with the payload.
+     * Base64 encoded. This is the input to the signing algorithm.
+     */
+    public String content() {
+        return content;
+    }
+
+    /**
+     * The base64-encoded signature.
      */
     public String signature() {
         return signature;

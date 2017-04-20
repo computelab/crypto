@@ -6,8 +6,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class RawJwsTest {
+
+    private final JsonParser parser = new JsonParser();
 
     @Test
     public void testParseJwtHs256() {
@@ -20,12 +23,12 @@ public class RawJwsTest {
         final JsonObject expectedHeader = new JsonObject();
         expectedHeader.addProperty("alg", "HS256");
         expectedHeader.addProperty("typ", "JWT");
-        assertEquals(expectedHeader, token.header());
+        assertEquals(expectedHeader, parser.parse(token.header()));
         final JsonObject expectedPayload = new JsonObject();
         expectedPayload.addProperty("sub", "1234567890");
         expectedPayload.addProperty("name", "John Doe");
         expectedPayload.addProperty("admin", true);
-        assertEquals(expectedPayload, token.payload());
+        assertEquals(expectedPayload, parser.parse(token.payload()));
         assertEquals("TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ", token.signature());
     }
 
@@ -44,12 +47,12 @@ public class RawJwsTest {
         final JsonObject expectedHeader = new JsonObject();
         expectedHeader.addProperty("alg", "RS256");
         expectedHeader.addProperty("typ", "JWT");
-        assertEquals(expectedHeader, token.header());
+        assertEquals(expectedHeader, parser.parse(token.header()));
         final JsonObject expectedPayload = new JsonObject();
         expectedPayload.addProperty("sub", "1234567890");
         expectedPayload.addProperty("name", "John Doe");
         expectedPayload.addProperty("admin", true);
-        assertEquals(expectedPayload, token.payload());
+        assertEquals(expectedPayload, parser.parse(token.payload()));
         assertTrue(token.signature().startsWith("EkN-DOsnsuRjRO6Bx"));
         assertTrue(token.signature().endsWith("J9mTniYJPenn5-HIirE"));
     }
@@ -64,12 +67,12 @@ public class RawJwsTest {
         final JsonObject expectedHeader = new JsonObject();
         expectedHeader.addProperty("alg", "RS256");
         expectedHeader.addProperty("typ", "JWT");
-        assertEquals(expectedHeader, token.header());
+        assertEquals(expectedHeader, parser.parse(token.header()));
         final JsonObject expectedPayload = new JsonObject();
         expectedPayload.addProperty("sub", "1234567890");
         expectedPayload.addProperty("name", "John Doe");
         expectedPayload.addProperty("admin", true);
-        assertEquals(expectedPayload, token.payload());
+        assertEquals(expectedPayload, parser.parse(token.payload()));
         assertTrue(token.signature().isEmpty());
     }
 
