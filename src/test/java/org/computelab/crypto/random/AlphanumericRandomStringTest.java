@@ -42,4 +42,9 @@ public class AlphanumericRandomStringTest {
             }
         }
     }
+
+    @Test(expected=NullPointerException.class)
+    public void testRandomCannotBeNull() {
+        new AlphanumericRandomString(false, null);
+    }
 }

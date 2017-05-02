@@ -8,11 +8,11 @@ import java.util.Set;
 
 import org.junit.Test;
 
-public class PrintableCharacterRandomStringTest {
+public class PrintableCharRandomStringTest {
 
     @Test
     public void test() {
-        final RandomString randomStr = new PrintableCharacterRandomString();
+        final RandomString randomStr = new PrintableCharRandomString();
         final Set<Character> charSet = new HashSet<Character>();
         for (int i = 0; i < 100; i++) {
             final String str = randomStr.next(50);
@@ -23,5 +23,10 @@ public class PrintableCharacterRandomStringTest {
             }
         }
         assertEquals("All the characters are covered.", 94, charSet.size());
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testRandomCannotBeNull() {
+        new PrintableCharRandomString(null);
     }
 }
