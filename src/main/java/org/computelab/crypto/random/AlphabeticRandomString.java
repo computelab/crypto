@@ -21,7 +21,7 @@ public final class AlphabeticRandomString implements RandomString {
         checkNotNull(alphabet);
         checkArgument(!alphabet.isEmpty(), "The alphabet cannot be empty.");
         this.alphabet = alphabet.toCharArray();
-        random = new SecureRandomSunNativePrng().newInstance();
+        random = new SunNativePrng().newInstance();
     }
 
     @Override
