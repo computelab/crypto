@@ -3,7 +3,13 @@ package org.computelab.crypto.random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +30,8 @@ public class AlphabeticRandomStringTest {
     @Test
     public void testLengthAndRange() {
         final String alphabet = "abcde";
-        final RandomString randomString = new AlphabeticRandomString(alphabet);
+        final RandomString randomString = new AlphabeticRandomString(
+                alphabet, new SunSha1Prng().newInstance());
         for (int length = 1; length < 100; length++) {
             String str = randomString.next(length);
             assertNotNull(str);
@@ -41,7 +48,8 @@ public class AlphabeticRandomStringTest {
         final int numOfStrs = 200;
         final int strLength = 64;
         final String alphabet = "abcde";
-        final RandomString randomString = new AlphabeticRandomString(alphabet);
+        final RandomString randomString = new AlphabeticRandomString(
+                alphabet, new SunSha1Prng().newInstance());
         final Set<String> strSet = new HashSet<>();
         final Multiset<Character> charCount = HashMultiset.create();
         for (int i = 0; i < numOfStrs; i++) {
@@ -66,7 +74,8 @@ public class AlphabeticRandomStringTest {
     @Test
     public void testMultiThreading() throws InterruptedException, ExecutionException {
         final String alphabet = "abcdefg";
-        final RandomString randomString = new AlphabeticRandomString(alphabet);
+        final RandomString randomString = new AlphabeticRandomString(
+                alphabet, new SunSha1Prng().newInstance());
         final int numOfStrs = 2000;
         final List<Callable<String>> tasks = new ArrayList<>(numOfStrs);
         for (int i = 0; i < numOfStrs; i++) {
@@ -94,9 +103,24 @@ public class AlphabeticRandomStringTest {
     }
 
     @Test
+    public void testReseeding() {
+        final int length = 3;
+        final SecureRandom mockRandom = mock(SecureRandom.class);
+        when(mockRandom.nextInt(length)).thenReturn(0);
+        final String alphabet = "a";
+        final RandomString randomString = new AlphabeticRandomString(alphabet, mockRandom);
+        final int numOfStrs = 30000;
+        for (int i = 0; i < numOfStrs; i++) {
+            randomString.next(length);
+        }
+        verify(mockRandom, atLeast(1)).setSeed(any());
+    }
+
+    @Test
     public void testSingleCharAlphabet() {
         final String alphabet = "a";
-        final RandomString randomStr = new AlphabeticRandomString(alphabet);
+        final RandomString randomStr = new AlphabeticRandomString(
+                alphabet, new SunSha1Prng().newInstance());
         for (int length = 1; length < 100; length++) {
             String str = randomStr.next(length);
             assertNotNull(str);
@@ -110,17 +134,23 @@ public class AlphabeticRandomStringTest {
 
     @Test(expected=NullPointerException.class)
     public void testAlphabetCannotBeNull() {
-        new AlphabeticRandomString(null);
+        new AlphabeticRandomString(null, new SunSha1Prng().newInstance());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testAlphabetCannotBeEmpty() {
-        new AlphabeticRandomString("");
+        new AlphabeticRandomString("", new SunSha1Prng().newInstance());
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testRandomCannotBeNull() {
+        RandomString randomStr = new AlphabeticRandomString("a", null);
+        randomStr.next(0);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testStringLengthCannotBeZero() {
-        RandomString randomStr = new AlphabeticRandomString("a");
+        RandomString randomStr = new AlphabeticRandomString("a", new SunSha1Prng().newInstance());
         randomStr.next(0);
     }
 }

@@ -6,29 +6,32 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.security.SecureRandom;
 
 /**
- * Generates random strings off an alphabet. It uses {@link SecureRandom} internally
- * as the random generator.
+ * Generates random strings off an alphabet.
  */
 public final class AlphabeticRandomString implements RandomString {
 
-    /** Re-seed approximately every 10000 calls. */
-    private static final int SEEDING_FREQUENCY = 10000;
+    /** Reseed approximately every 10000 calls. */
+    private static final int RESEED_FREQUENCY = 10000;
+    
+    /** Reseed using Sun Sha1 PRNG for speed. */
+    private final SecureRandom reseed = new SunSha1Prng().newInstance();
 
     private final char[] alphabet;
     private final SecureRandom random;
 
-    public AlphabeticRandomString(final String alphabet) {
+    public AlphabeticRandomString(final String alphabet, final SecureRandom random) {
         checkNotNull(alphabet);
         checkArgument(!alphabet.isEmpty(), "The alphabet cannot be empty.");
+        checkNotNull(random);
         this.alphabet = alphabet.toCharArray();
-        random = new SunNativePrng().newInstance();
+        this.random = random;
     }
 
     @Override
     public String next(final int length) {
         checkArgument(length > 0, "Length must be greater than 0.");
-        if (random.nextInt(SEEDING_FREQUENCY) == 0) {
-            random.setSeed(random.generateSeed(PrngConstants.SEED_SIZE));
+        if (reseed.nextInt(RESEED_FREQUENCY) == 0) {
+            random.setSeed(reseed.generateSeed(PrngConstants.SEED_SIZE));
         }
         final char[] chars = new char[length];
         for (int i = 0; i < length; i++) {
