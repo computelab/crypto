@@ -4,6 +4,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gson.Gson;
 
+// TODO: Make it static with a new type Jwt, like Jwt.parseJws(string);
+//       We will want a consistent interface with that of RawJws.
 public class JwtParser {
 
     private final Gson gson = new Gson();
