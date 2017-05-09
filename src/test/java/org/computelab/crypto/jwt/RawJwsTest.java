@@ -13,6 +13,18 @@ public class RawJwsTest {
     private final JsonParser parser = new JsonParser();
 
     @Test
+    public void testBase64UrlEncoding() {
+        final String jwt =
+                "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKb2UifQ." +
+                "fstrLx7Q7fMxl6mgibNvmuoz0d2VzG5-EFYov-Zy" +
+                "DrzflneYX276269fUCPhsU01cCorWDq4CuHu4RUN" +
+                "2fZsEw";
+        final RawJws token = RawJws.parseJwt(jwt);
+        assertEquals("{\"alg\":\"HS512\"}", token.header());
+        assertEquals("{\"sub\":\"Joe\"}", token.payload());
+    }
+
+    @Test
     public void testParseJwtHs256() {
         final String jwt =
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
