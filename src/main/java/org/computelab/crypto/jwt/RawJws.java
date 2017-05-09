@@ -4,16 +4,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.regex.Pattern;
-
-import org.bouncycastle.util.encoders.Base64;
 
 import com.google.common.base.CharMatcher;
 
 /**
  * Unpacks JWS into raw JSON.
  *
- * See https://tools.ietf.org/html/rfc7515#section-5.
+ * See https://tools.ietf.org/html/rfc7515#section-5 Producing and Consuming JWSs.
+ * See https://tools.ietf.org/html/rfc4648#section-5 Base64 URL encoding.
  */
 public class RawJws {
 
@@ -21,6 +22,13 @@ public class RawJws {
 
     private static final Character DOT = Character.valueOf('.');
     private static final Pattern SPLIT = Pattern.compile("\\" + DOT);
+
+    /*
+     * Decoder is thread-safe. The decoder is a base64url decoder.
+     * Note this is not the same as basic base64 encoding or URL encoding.
+     * It is a modified base64 encoding that's URL safe.
+     */
+    private static final Decoder DECODER = Base64.getUrlDecoder();
 
     public static RawJws parseJwt(final String jwt) {
         checkNotNull(jwt);
@@ -35,7 +43,7 @@ public class RawJws {
     }
 
     private static String decode(final String encoded) {
-        return new String(Base64.decode(encoded), StandardCharsets.UTF_8);
+        return new String(DECODER.decode(encoded), StandardCharsets.UTF_8);
     }
 
     // === Non-Static Members ===
@@ -59,14 +67,14 @@ public class RawJws {
     }
 
     /**
-     * The JOSE header in raw JSON String.
+     * The JOSE header as raw JSON string.
      */
     public String header() {
         return header;
     }
 
     /**
-     * The JWS payload in raw JSON.
+     * The JWS payload as raw JSON string.
      */
     public String payload() {
         return payload;
@@ -74,14 +82,14 @@ public class RawJws {
 
     /**
      * The header concatenated with dot and then with the payload.
-     * Base64 encoded. This is the input to the signing algorithm.
+     * Base64 URL encoded. This is the input to the signing algorithm.
      */
     public String content() {
         return content;
     }
 
     /**
-     * The base64-encoded signature.
+     * The base64url encoded signature.
      */
     public String signature() {
         return signature;

@@ -5,6 +5,7 @@ import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Base64.Decoder;
 
 import javax.crypto.Mac;
 
@@ -16,12 +17,18 @@ import javax.crypto.Mac;
 public class HmacSigner implements Signer {
 
     private final Mac mac;
+    private final Decoder decoder;
 
     public HmacSigner(final String algorithm, final Key key) {
+        this(algorithm, key, Base64.getUrlDecoder());
+    }
+
+    HmacSigner(final String algorithm, final Key key, final Decoder decoder) {
         // TODO: Precondition
         try {
             mac = Mac.getInstance(algorithm);
             mac.init(key);
+            this.decoder = decoder;
         } catch (NoSuchAlgorithmException e) {
             // TODO
             throw new RuntimeException();
@@ -33,14 +40,9 @@ public class HmacSigner implements Signer {
 
     @Override
     public boolean verify(final RawJws rawJws) {
-        // TODO: Is basic Base64 good fit for JSON?
-        // TODO: Remove dependency to Bouncy Castle
-        final byte[] content = Base64.getDecoder().decode(rawJws.content());
+        final byte[] content = decoder.decode(rawJws.content());
         final byte[] result = mac.doFinal(content);
-        final byte[] signature = Base64.getDecoder().decode(rawJws.signature());
-        if (result.length != signature.length) {
-            return false;
-        }
+        final byte[] signature = decoder.decode(rawJws.signature());
         return MessageDigest.isEqual(result, signature);
     }
 }
