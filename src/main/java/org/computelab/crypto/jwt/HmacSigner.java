@@ -1,5 +1,6 @@
 package org.computelab.crypto.jwt;
 
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
@@ -40,7 +41,7 @@ public class HmacSigner implements Signer {
 
     @Override
     public boolean verify(final RawJws rawJws) {
-        final byte[] content = decoder.decode(rawJws.content());
+        final byte[] content = rawJws.content().getBytes(StandardCharsets.US_ASCII);
         final byte[] result = mac.doFinal(content);
         final byte[] signature = decoder.decode(rawJws.signature());
         return MessageDigest.isEqual(result, signature);

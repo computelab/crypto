@@ -82,7 +82,8 @@ public class RawJws {
 
     /**
      * The header concatenated with dot and then with the payload.
-     * Base64 URL encoded. This is the input to the signing algorithm.
+     * The header and the payload are base64 URL encoded. The dot
+     * is not encoded. This is the input to the signing algorithm.
      */
     public String content() {
         return content;
