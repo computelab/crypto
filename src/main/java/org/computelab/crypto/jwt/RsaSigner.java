@@ -1,5 +1,6 @@
 package org.computelab.crypto.jwt;
 
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
@@ -34,7 +35,7 @@ public class RsaSigner implements Signer {
     @Override
     public boolean verify(final RawJws rawJws) {
         try {
-            signature.update(decoder.decode(rawJws.content()));
+            signature.update(rawJws.content().getBytes(StandardCharsets.US_ASCII));
             return signature.verify(decoder.decode(rawJws.signature()));
         } catch (SignatureException e) {
             // TODO
