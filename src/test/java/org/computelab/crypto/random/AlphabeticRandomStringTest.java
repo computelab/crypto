@@ -109,7 +109,7 @@ public class AlphabeticRandomStringTest {
         when(mockRandom.nextInt(length)).thenReturn(0);
         final String alphabet = "a";
         final RandomString randomString = new AlphabeticRandomString(alphabet, mockRandom);
-        final int numOfStrs = 30000;
+        final int numOfStrs = 50000;
         for (int i = 0; i < numOfStrs; i++) {
             randomString.next(length);
         }
